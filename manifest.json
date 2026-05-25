@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Mental Health Guardrails",
+  "version": "1.0.0",
+  "description": "Prevents doomscrolling and cognitive overwhelm with mindful interventions.",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "*://*.twitter.com/*",
+    "*://*.x.com/*",
+    "*://*.instagram.com/*",
+    "*://*.tiktok.com/*",
+    "*://*.reddit.com/*",
+    "*://*.facebook.com/*",
+    "*://*.youtube.com/*",
+    "https://api.thecatapi.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.instagram.com/*",
+        "*://*.tiktok.com/*",
+        "*://*.reddit.com/*",
+        "*://*.facebook.com/*",
+        "*://*.youtube.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "dashboard.html",
+    "default_title": "Guardrails Dashboard"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["intervention.html", "intervention.js", "intervention.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
