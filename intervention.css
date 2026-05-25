@@ -1,0 +1,97 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: transparent; /* Relies on parent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.glass-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+h1 { margin-top: 0; font-size: 24px; font-weight: 600; }
+p { font-size: 16px; color: #e2e8f0; margin-bottom: 24px; }
+
+.cat-container {
+  width: 100%;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  background: #1e293b;
+}
+
+.cat-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.breathing-widget {
+  position: relative;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #4ade80; /* Inhale color */
+  transition: transform linear, background-color linear;
+}
+
+.animate-breathe {
+  /* Total cycle: 19 seconds */
+  animation: breatheCycle 19s forwards linear;
+}
+
+@keyframes breatheCycle {
+  0%   { transform: scale(1); background-color: #4ade80; }
+  21%  { transform: scale(2.2); background-color: #3b82f6; } /* 4s Inhale */
+  58%  { transform: scale(2.2); background-color: #3b82f6; } /* 7s Hold */
+  100% { transform: scale(1); background-color: #4ade80; }   /* 8s Exhale */
+}
+
+#breath-text {
+  position: absolute;
+  z-index: 10;
+  font-weight: bold;
+  font-size: 14px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+  margin: 0;
+}
+
+.actions { display: flex; gap: 16px; justify-content: center; }
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-primary { background: #ef4444; color: white; }
+.btn-primary:hover { background: #dc2626; }
+.btn-disabled { background: #64748b; color: #cbd5e1; cursor: not-allowed; }
+.btn-active { background: #3b82f6; color: white; cursor: pointer; }
+.btn-active:hover { background: #2563eb; }
