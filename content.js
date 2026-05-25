@@ -29,21 +29,34 @@ setInterval(() => {
 }, 1000);
 
 // 3. Batch send data to Background Script every 5 seconds
-setInterval(() => {
+const logInterval = setInterval(() => {
   if ((pendingTime > 0 || pendingScroll > 0) && !interventionActive) {
-    chrome.runtime.sendMessage({
-      type: "LOG_ACTIVITY",
-      payload: {
-        timeDelta: pendingTime,
-        scrollDelta: pendingScroll
+    
+    // Gunakan try-catch untuk menangani "Extension context invalidated"
+    try {
+      chrome.runtime.sendMessage({
+        type: "LOG_ACTIVITY",
+        payload: {
+          timeDelta: pendingTime,
+          scrollDelta: pendingScroll
+        }
+      });
+      
+      // Reset setelah berhasil dikirim
+      pendingTime = 0;
+      pendingScroll = 0;
+      
+    } catch (error) {
+      if (error.message.includes("Extension context invalidated")) {
+        console.warn("Mental Health Guardrails: Ekstensi telah diperbarui. Mematikan tracker lama. Silakan refresh halaman ini.");
+        clearInterval(logInterval); // Hentikan perulangan agar tidak error terus-menerus
+      } else {
+        console.error("Error mengirim data:", error);
       }
-    });
-    // Reset after sending
-    pendingTime = 0;
-    pendingScroll = 0;
+    }
+    
   }
 }, 5000);
-
 // 4. Listen for Intervention Trigger from Background
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "TRIGGER_INTERVENTION" && !interventionActive) {

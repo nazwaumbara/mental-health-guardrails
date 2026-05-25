@@ -2,46 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Guardrails Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Mindful Guardrails</title>
+  <script src="chart.js"></script>
   <style>
-    body { width: 450px; background-color: #f8fafc; }
+    body { width: 450px; background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 24px; color: #1e293b; }
+    h1 { font-size: 1.5rem; font-weight: 700; margin-top: 0; margin-bottom: 1rem; color: #0f172a; }
+    h2 { font-size: 0.875rem; font-weight: 600; margin-top: 0; margin-bottom: 0.75rem; color: #334155; }
+    
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .card { background-color: #ffffff; padding: 1rem; border-radius: 0.75rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #f1f5f9; }
+    .card.mb-6 { margin-bottom: 1.5rem; }
+    
+    .label { font-size: 0.75rem; color: #64748b; font-weight: 600; margin: 0; }
+    .value-blue { font-size: 1.875rem; font-weight: 700; color: #2563eb; margin: 0.25rem 0 0 0; }
+    .value-emerald { font-size: 1.5rem; font-weight: 700; color: #059669; margin: 0.25rem 0 0 0; }
+    
+    .chart-wrapper { position: relative; height: 180px; width: 100%; }
+    .flex { display: flex; gap: 1rem; }
+    .w-half { width: 50%; }
+    
+    label.input-label { display: block; font-size: 0.75rem; color: #475569; margin-bottom: 0.25rem; font-weight: 500; }
+    input { width: 100%; box-sizing: border-box; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem; font-size: 0.875rem; outline: none; transition: box-shadow 0.2s; }
+    input:focus { box-shadow: 0 0 0 3px #bfdbfe; }
+    
+    button { width: 100%; margin-top: 0.75rem; background-color: #0f172a; color: #ffffff; border: none; border-radius: 0.5rem; padding: 0.5rem; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+    button:hover { background-color: #1e293b; }
+    .bg-emerald { background-color: #10b981 !important; }
   </style>
 </head>
-<body class="p-6 text-slate-800">
+<body>
   
-  <h1 class="text-2xl font-bold mb-4 text-slate-900">Mental Health Guardrails</h1>
+  <h1>Mindful Guardrails</h1>
   
-  <div class="grid grid-cols-2 gap-4 mb-6">
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-      <p class="text-xs text-slate-500 uppercase font-semibold">Triggers Prevented (7d)</p>
-      <p id="kpi-triggers" class="text-3xl font-bold text-blue-600 mt-1">0</p>
+  <div class="grid">
+    <div class="card">
+      <p class="label">Doomscrolling Prevented</p>
+      <p id="kpi-triggers" class="value-blue">0</p>
     </div>
-    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-      <p class="text-xs text-slate-500 uppercase font-semibold">Time Tracked (Today)</p>
-      <p id="kpi-time" class="text-2xl font-bold text-emerald-600 mt-1">0 min</p>
+    <div class="card">
+      <p class="label">Time on Socials (Today)</p>
+      <p id="kpi-time" class="value-emerald">0 min</p>
     </div>
   </div>
 
-  <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-6">
-    <h2 class="text-sm font-semibold mb-3">7-Day Overwhelm Trends</h2>
-    <canvas id="trendChart" height="150"></canvas>
+  <div class="card mb-6">
+    <h2>Your Mindful Breaks (Past 7 Days)</h2>
+    <div class="chart-wrapper">
+      <canvas id="trendChart"></canvas>
+    </div>
   </div>
 
-  <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-    <h2 class="text-sm font-semibold mb-3">Intervention Thresholds</h2>
-    <div class="flex gap-4">
-      <div class="w-1/2">
-        <label class="block text-xs text-slate-500 mb-1">Max Time (Mins)</label>
-        <input id="input-time" type="number" class="w-full border rounded-lg p-2 text-sm focus:ring focus:ring-blue-200 outline-none">
+  <div class="card">
+    <h2>When should we remind you to breathe?</h2>
+    <div class="flex">
+      <div class="w-half">
+        <label class="input-label">Time Limit (Minutes)</label>
+        <input id="input-time" type="number" min="1">
       </div>
-      <div class="w-1/2">
-        <label class="block text-xs text-slate-500 mb-1">Max Scroll (Pixels)</label>
-        <input id="input-scroll" type="number" step="1000" class="w-full border rounded-lg p-2 text-sm focus:ring focus:ring-blue-200 outline-none">
+      <div class="w-half">
+        <label class="input-label">Scroll Limit (Screens)</label>
+        <input id="input-scroll" type="number" min="5">
       </div>
     </div>
-    <button id="btn-save" class="mt-3 w-full bg-slate-900 text-white rounded-lg py-2 text-sm font-semibold hover:bg-slate-800 transition">Save Settings</button>
+    <button id="btn-save">Save Preferences</button>
   </div>
 
   <script src="dashboard.js"></script>

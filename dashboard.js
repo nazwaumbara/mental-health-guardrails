@@ -5,25 +5,32 @@ document.addEventListener("DOMContentLoaded", async () => {
   const analytics = data.analytics || {};
   const settings = data.settings || { maxTime: 900, maxScroll: 30000 };
 
-  // 1. Populate Settings
   const inputTime = document.getElementById("input-time");
   const inputScroll = document.getElementById("input-scroll");
-  inputTime.value = Math.round(settings.maxTime / 60); // Convert seconds to mins
-  inputScroll.value = settings.maxScroll;
+  
+  // TAMPILAN KE PENGGUNA:
+  // Convert detik ke menit
+  inputTime.value = Math.round(settings.maxTime / 60);
+  // Convert Pixel ke Screens (1 Screen = 800 pixel)
+  inputScroll.value = Math.round(settings.maxScroll / 800);
 
   document.getElementById("btn-save").addEventListener("click", async () => {
-    const newSettings = {
-      maxTime: parseInt(inputTime.value) * 60,
-      maxScroll: parseInt(inputScroll.value)
+    // SIMPAN KE SISTEM:
+    const newSettings = { 
+      // Convert balik menit ke detik
+      maxTime: parseInt(inputTime.value) * 60, 
+      // Convert balik Screens ke Pixel untuk dibaca oleh mesin
+      maxScroll: parseInt(inputScroll.value) * 800 
     };
+    
     await chrome.storage.local.set({ settings: newSettings });
     
     const btn = document.getElementById("btn-save");
     btn.innerText = "Saved!";
-    btn.classList.replace("bg-slate-900", "bg-emerald-500");
-    setTimeout(() => {
-      btn.innerText = "Save Settings";
-      btn.classList.replace("bg-emerald-500", "bg-slate-900");
+    btn.classList.add("bg-emerald");
+    setTimeout(() => { 
+      btn.innerText = "Save Preferences"; 
+      btn.classList.remove("bg-emerald"); 
     }, 2000);
   });
 
